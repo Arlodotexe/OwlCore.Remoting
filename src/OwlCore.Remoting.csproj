@@ -16,7 +16,7 @@
 		<Author>Arlo Godfrey</Author>
 		<Version>0.0.0</Version>
 		<Product>OwlCore</Product>
-		<Description></Description>
+		<Description>A lightweight and ultra-flexible RPC framework for .NET Standard 2.0.</Description>
 		<PackageLicenseFile>LICENSE.txt</PackageLicenseFile>
 		<PackageIcon>logo.png</PackageIcon>
 		<PackageReleaseNotes>
