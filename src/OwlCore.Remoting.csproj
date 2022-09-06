@@ -22,7 +22,7 @@
 		<PackageReleaseNotes>
 --- 0.0.0 ---
 [New]
-Initial release of OwlCore.Remoting.
+Initial separated package release of OwlCore.Remoting. Transferred from OwlCore 0.0.72.
 		</PackageReleaseNotes>
 		<DebugType>embedded</DebugType>
 		<NeutralLanguage>en</NeutralLanguage>
