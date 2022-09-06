@@ -1,12 +1,7 @@
-﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
-using OwlCore.Extensions;
-using OwlCore.Remoting;
+﻿using OwlCore.Remoting;
+using OwlCore.Remoting.Tests;
 using OwlCore.Remoting.Transfer;
 using OwlCore.Tests.Remoting.Transfer;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
 
 namespace OwlCore.Tests.Remoting
 {
@@ -195,7 +190,7 @@ namespace OwlCore.Tests.Remoting
 
             foreach (var item in memberRemotes)
             {
-                handlers.Add(item.MessageHandler.Cast<LoopbackMockMessageHandler>());
+                handlers.Add((LoopbackMockMessageHandler)item.MessageHandler);
             }
 
             foreach (var handler in handlers)

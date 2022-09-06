@@ -1,10 +1,7 @@
 ﻿using CommunityToolkit.Diagnostics;
+using OwlCore.Extensions;
 using OwlCore.Remoting;
 using OwlCore.Remoting.Transfer;
-using System;
-using System.Collections.Generic;
-using System.Threading;
-using System.Threading.Tasks;
 
 namespace OwlCore.Tests.Remoting.Transfer
 {
@@ -55,7 +52,7 @@ namespace OwlCore.Tests.Remoting.Transfer
         /// <inheritdoc/>
         public async Task SendMessageAsync(IRemoteMessage memberMessage, CancellationToken? cancellationToken = null)
         {
-            using (await OwlCore.Flow.EasySemaphore(_sendMessageSemaphore))
+            using (await _sendMessageSemaphore.DisposableWaitAsync())
             {
                 Guard.IsNotNull(LoopbackListeners, nameof(LoopbackListeners));
                 Guard.HasSizeGreaterThan(LoopbackListeners, 0, nameof(LoopbackListeners));

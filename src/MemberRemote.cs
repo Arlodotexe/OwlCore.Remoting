@@ -97,44 +97,45 @@ namespace OwlCore.Remoting
 
             foreach (var eventInfo in eventsToRemote)
             {
-                var tDelegate = eventInfo.EventHandlerType;
+                // Unused code. Disabled to avoid taking a new dependency for ILGenerator.
+                /*                var tDelegate = eventInfo.EventHandlerType;
 
-                var returnType = GetDelegateReturnType(tDelegate);
-                if (returnType != typeof(void))
-                    ThrowHelper.ThrowInvalidOperationException($"Event {eventInfo.Name} has a return type.");
+                                var returnType = GetDelegateReturnType(tDelegate);
+                                if (returnType != typeof(void))
+                                    ThrowHelper.ThrowInvalidOperationException($"Event {eventInfo.Name} has a return type.");
 
-                var paramTypes = GetDelegateParameterTypes(tDelegate);
-                var handler = new DynamicMethod("", null, paramTypes, eventInfo.DeclaringType);
+                                var paramTypes = GetDelegateParameterTypes(tDelegate);
+                                var handler = new DynamicMethod("", null, paramTypes, eventInfo.DeclaringType);
 
-                ILGenerator ilgen = handler.GetILGenerator();
+                                ILGenerator ilgen = handler.GetILGenerator();
 
-                var methodInfo = ((Action<object[]>)RemoteEventAttribute.HandleEventInvocation).Method;
+                                var methodInfo = ((Action<object[]>)RemoteEventAttribute.HandleEventInvocation).Method;
 
-                var arr = ilgen.DeclareLocal(typeof(object[]));
+                                var arr = ilgen.DeclareLocal(typeof(object[]));
 
-                ilgen.Emit(OpCodes.Ldc_I4, paramTypes.Length);
-                ilgen.Emit(OpCodes.Newarr, typeof(object));
-                ilgen.Emit(OpCodes.Stloc, arr);
+                                ilgen.Emit(OpCodes.Ldc_I4, paramTypes.Length);
+                                ilgen.Emit(OpCodes.Newarr, typeof(object));
+                                ilgen.Emit(OpCodes.Stloc, arr);
 
-                for (var i = 0; i < paramTypes.Length; i++)
-                {
-                    ilgen.Emit(OpCodes.Ldloc, arr);
-                    ilgen.Emit(OpCodes.Ldc_I4, i);
-                    ilgen.Emit(OpCodes.Ldarg, i);
-                    ilgen.Emit(OpCodes.Stelem_Ref);
-                }
+                                for (var i = 0; i < paramTypes.Length; i++)
+                                {
+                                    ilgen.Emit(OpCodes.Ldloc, arr);
+                                    ilgen.Emit(OpCodes.Ldc_I4, i);
+                                    ilgen.Emit(OpCodes.Ldarg, i);
+                                    ilgen.Emit(OpCodes.Stelem_Ref);
+                                }
 
-                ilgen.Emit(OpCodes.Ldloc, arr);
-                ilgen.EmitCall(OpCodes.Call, methodInfo, null);
+                                ilgen.Emit(OpCodes.Ldloc, arr);
+                                ilgen.EmitCall(OpCodes.Call, methodInfo, null);
 
-                ilgen.Emit(OpCodes.Nop);
-                ilgen.Emit(OpCodes.Ret);
+                                ilgen.Emit(OpCodes.Nop);
+                                ilgen.Emit(OpCodes.Ret);
 
-                Delegate dEmitted = handler.CreateDelegate(tDelegate);
+                                Delegate dEmitted = handler.CreateDelegate(tDelegate);
 
-                var addHandler = eventInfo.GetAddMethod();
+                                var addHandler = eventInfo.GetAddMethod();
 
-                addHandler.Invoke(Instance, new object[] { dEmitted });
+                                addHandler.Invoke(Instance, new object[] { dEmitted });*/
             }
 
             Type[] GetDelegateParameterTypes(Type d)
@@ -319,7 +320,7 @@ namespace OwlCore.Remoting
             // To avoid breaking concurrency, don't await unless handler needs init. 
             if (!MessageHandler.IsInitialized)
             {
-                using (await Flow.EasySemaphore(_messageInitSemaphore))
+                using (await _messageInitSemaphore.DisposableWaitAsync(cancellationToken ?? CancellationToken.None))
                 {
                     // Check IsInitialized again, in case init happened while waiting for entry.
                     if (!MessageHandler.IsInitialized)

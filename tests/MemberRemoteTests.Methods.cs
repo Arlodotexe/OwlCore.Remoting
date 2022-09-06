@@ -1,21 +1,18 @@
 ﻿using CommunityToolkit.Diagnostics;
-using Microsoft.VisualStudio.TestTools.UnitTesting;
 using OwlCore.Extensions;
 using OwlCore.Remoting;
+using OwlCore.Remoting.Tests;
 using OwlCore.Tests.Remoting.Mock;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading;
-using System.Threading.Tasks;
 
 namespace OwlCore.Tests.Remoting
 {
     public partial class MemberRemoteTests
     {
-        private static Dictionary<MemberType, object> _defaultTestValues = new Dictionary<MemberType, object>
+        public record MethodCallParamReferenceInstance(bool boolean);
+
+        private static readonly Dictionary<MemberType, object> _defaultTestValues = new()
         {
-            { MemberType.Object, new OwlCore.AbstractUI.Models.AbstractButton("testid", "test button") },
+            { MemberType.Object, new MethodCallParamReferenceInstance(false) },
             { MemberType.Enum, RemotingDirection.Bidirectional },
             { MemberType.Struct, DateTime.Today },
             { MemberType.Primitive, 5 },

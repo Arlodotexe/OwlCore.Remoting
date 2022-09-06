@@ -1,12 +1,11 @@
-﻿using OwlCore.Remoting;
+﻿using OwlCore.Extensions;
 using System;
-using System.Collections.Concurrent;
 using System.Threading;
 using System.Threading.Tasks;
 
-namespace OwlCore
+namespace OwlCore.Remoting
 {
-    public static partial class Flow
+    public static partial class RemoteSemaphoreSlimExtensions
     {
         /// <summary>
         /// Provides syntactic sugar for releasing a <see cref="RemoteSemaphoreSlim"/> when execution leaves a <c>using</c> statement.
@@ -18,7 +17,7 @@ namespace OwlCore
         /// Not taking this into account may cause undesired behavior.
         /// </remarks>
         /// <returns>A <see cref="Task"/> that represents the asynchronous operation. When this task completes, the semaphore has entered (locally). Value is a disposable wrapper around the semaphore that calls <see cref="SemaphoreSlim.Release()"/> when disposed.</returns>
-        public static async Task<DisposeToReleaseRemoteSemaphoreWrapper> EasySemaphore(RemoteSemaphoreSlim semaphore)
+        public static async Task<DisposeToReleaseRemoteSemaphoreWrapper> DisposableWaitAsync(this RemoteSemaphoreSlim semaphore)
         {
             var wrapper = new DisposeToReleaseRemoteSemaphoreWrapper(semaphore);
             await semaphore.WaitAsync();
@@ -26,14 +25,14 @@ namespace OwlCore
         }
 
         /// <summary>
-        /// A wrapper that disposes the given semaphore when disposed. Used for <see cref="EasySemaphore(RemoteSemaphoreSlim)"/>.
+        /// A wrapper that disposes the given semaphore when disposed. Used for <see cref="DisposableWaitAsync(RemoteSemaphoreSlim)"/>.
         /// </summary>
         public class DisposeToReleaseRemoteSemaphoreWrapper : IDisposable
         {
             private readonly RemoteSemaphoreSlim _semaphore;
 
             /// <summary>
-            /// Creates a new instance of <see cref="DisposeToReleaseSemaphoreWrapper"/>.
+            /// Creates a new instance of <see cref="SemaphoreSlimExtensions.DisposeToReleaseSemaphoreWrapper"/>.
             /// </summary>
             /// <param name="semaphore">The semaphore to wrap around and release when disposed.</param>
             public DisposeToReleaseRemoteSemaphoreWrapper(RemoteSemaphoreSlim semaphore)

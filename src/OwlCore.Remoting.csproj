@@ -22,7 +22,7 @@
 		<PackageReleaseNotes>
 --- 0.0.0 ---
 [New]
-Initial separated package release of OwlCore.Remoting. Transferred from OwlCore 0.0.72.
+Initial separated package release of OwlCore.Remoting. Transferred from OwlCore 0.1.0.
 		</PackageReleaseNotes>
 		<DebugType>embedded</DebugType>
 		<NeutralLanguage>en</NeutralLanguage>
@@ -53,9 +53,16 @@ Initial separated package release of OwlCore.Remoting. Transferred from OwlCore 
 	</ItemGroup>
 
 	<ItemGroup>
+		<PackageReference Include="Cauldron.BasicInterceptors" Version="3.2.3" />
+		<PackageReference Include="Cauldron.Interception.Fody" Version="3.2.3" />
 		<PackageReference Include="Microsoft.Bcl.AsyncInterfaces" Version="6.0.0" />
 		<PackageReference Include="Microsoft.SourceLink.GitHub" Version="1.1.1" PrivateAssets="All" />
+		<PackageReference Include="OwlCore.Extensions" Version="0.3.0" />
 		<PackageReference Include="System.Linq.Async" Version="6.0.1" />
+    <PackageReference Include="CommunityToolkit.Diagnostics" Version="8.0.0" />
+    <PackageReference Include="Newtonsoft.Json" Version="13.0.1" />
+    <PackageReference Include="Microsoft.CSharp" Version="4.7.0" />
+    <PackageReference Include="System.Threading.Tasks.Dataflow" Version="6.0.0" />
 	</ItemGroup>
 
 	<ItemGroup>

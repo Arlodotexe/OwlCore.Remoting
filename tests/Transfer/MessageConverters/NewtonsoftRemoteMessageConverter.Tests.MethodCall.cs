@@ -1,14 +1,9 @@
-﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
-using OwlCore.Extensions;
+﻿using OwlCore.Extensions;
 using OwlCore.Remoting;
+using OwlCore.Remoting.Tests;
 using OwlCore.Remoting.Transfer;
 using OwlCore.Remoting.Transfer.MessageConverters;
-using OwlCore.Tests.Remoting.Mock;
-using System;
-using System.Collections.Generic;
-using System.Linq;
 using System.Reflection;
-using System.Threading.Tasks;
 
 namespace OwlCore.Tests.Remoting
 {
@@ -756,11 +751,8 @@ namespace OwlCore.Tests.Remoting
         {
             var parameterData = new ParameterData
             {
-                Value = new OwlCore.AbstractUI.Models.AbstractButton("someId", "My button")
-                {
-                    Title = "Test title",
-                },
-                AssemblyQualifiedName = typeof(OwlCore.AbstractUI.Models.AbstractButton).AssemblyQualifiedName,
+                Value = new MethodCallParamReferenceInstance(true),
+                AssemblyQualifiedName = typeof(MethodCallParamReferenceInstance).AssemblyQualifiedName,
             };
 
             return ValidateMethodAsync(((Func<Task>)MethodCall_SingleParam_ObjectInstance).Method, parameterData);
@@ -824,5 +816,7 @@ namespace OwlCore.Tests.Remoting
                 Helpers.SmartAssertEqual(originalMsgParam.Value, originalMsgParamType, deserMsgParam.Value, deserMsgParamType);
             }
         }
+
+        public record MethodCallParamReferenceInstance(bool boolean);
     }
 }
