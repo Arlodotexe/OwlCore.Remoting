@@ -1,6 +1,6 @@
 # OwlCore.Remoting [![Version](https://img.shields.io/nuget/v/OwlCore.Remoting.svg)](https://www.nuget.org/packages/OwlCore.Remoting)
 
-A lightweight and ultra-flexible RPC framework for .NET Standard 2.0, unidirectionally or bidirectionally.
+A lightweight and ultra-flexible RPC framework for .NET Standard 2.0.
 
 When a member call is intercepted, we gather the information needed to replicate the unique member change, and emit an [IRemoteMemberMessage](src/Transfer/Messages/IRemoteMemberMessage.cs), which is handled by you.
 
