@@ -1,6 +1,6 @@
 # OwlCore.Remoting [![Version](https://img.shields.io/nuget/v/OwlCore.Remoting.svg)](https://www.nuget.org/packages/OwlCore.Remoting)
 
-A lightweight and ultra-flexible RPC framework for .NET Standard 2.0, unidirectionally or bidirectionally.
+A lightweight and ultra-flexible RPC framework for .NET Standard 2.0.
 
 When a member call is intercepted, we gather the information needed to replicate the unique member change, and emit an [IRemoteMemberMessage](src/Transfer/Messages/IRemoteMemberMessage.cs), which is handled by you.
 
@@ -8,40 +8,47 @@ By transferring this information out and applying the instructions on another ma
 
 By serializing this information and replaying it later, you can effectively record and play back all the member changes.
 
-## Usage example
-
-Check out our [docs](./docs) for more information.
+## Example
+### See the [Docs](./docs) for more.
 
 ```csharp
-public class MyRemoteClass
+using OwlCore.Remoting;
+
+// These attribute can be applied to a specific property/method, or an entire class.
+// It even works when MemberRemote is in a base class!
+[RemoteProperty]
+[RemoteMethod]
+[RemoteOptions(RemotingDirection.ClientToHost)]
+public class MyClass : IDisposable
 {
-    private readonly MemberRemote _memberRemote;
+    private MemberRemote _memberRemote;
 
-    public MyRemoteClass(RemotingMode mode)
+    public MemberRemote()
     {
-        _memberRemote = new MemberRemote(this, "UniqueButConsistentId", new MyMessageHandler(mode));
+        // Pass the instance you want to remote into MemberRemote() with an ID that is identical on both machines for that instance.
+        // An instance will not receive member changes until you do this.
+        // Optionally leave out the message handler. Uses the default set by MemberRemote.SetDefaultMessageHandler(handler);
+        _memberRemote = new MemberRemote(this, "InstanceIdThatMatchesOnBothMachines", myMessageHandler);
     }
 
-    [RemoteProperty, RemoteOptions(RemotingDirection.HostToClient)]
-    public int Data { get; set; }
+    // When the property setter is called, the value is captured and the property setter is invoked remotely.
+    [RemoteProperty, RemoteOptions(RemotingDirection.Bidirectional)] 
+    public int CurrentIndex { get; set; }
 
-    [RemoteProperty, RemoteOptions(RemotingDirection.ClientToHost)]
-    public int OtherData { get; set; }
-}
-
-
-public class MyMessageHandler : IRemoteMessageHandler
-{
-    public MyMessageHandler(RemotingMode mode)
+    // Method will be called remotely, including parameters.
+    [RemoteMethod, RemoteOptions(RemotingDirection.InboundHost | RemotingDirection.Outbound)] 
+    public void SomeMethod(int data, string[] moreData)
     {
-        Mode = mode;
+        // code here ...
+        // Execution may complete before other machines are done. 
+        // If you need to wait for other machines to finish execution, use the _memberRemote.RemoteWaitAsync() and _memberRemote.RemoteReleaseAsync() extension methods.
     }
 
-    public async Task InitAsync(CancellationToken cancellationToken = default)
+    public void Dispose()
     {
-        // connect to websocket
+        // Dispose of the MemberRemote when finished. Forgetting to do this WILL result in a memory leak.
+        _memberRemote.Dispose();
     }
-    ...
 }
 ```
 
