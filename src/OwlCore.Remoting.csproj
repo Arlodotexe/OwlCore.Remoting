@@ -14,12 +14,19 @@
 		<AllowedOutputExtensionsInPackageBuildOutputFolder>$(AllowedOutputExtensionsInPackageBuildOutputFolder);.pdb</AllowedOutputExtensionsInPackageBuildOutputFolder>
 
 		<Author>Arlo Godfrey</Author>
-		<Version>0.0.0</Version>
+		<Version>0.1.0</Version>
 		<Product>OwlCore</Product>
 		<Description>A lightweight and ultra-flexible RPC framework for .NET Standard 2.0.</Description>
 		<PackageLicenseFile>LICENSE.txt</PackageLicenseFile>
 		<PackageIcon>logo.png</PackageIcon>
 		<PackageReleaseNotes>
+--- 0.1.0 ---
+[Improvements]
+Updated all dependencies to latest stable versions.
+
+[Breaking]
+Transient dependency on OwlCore.Storage removed.
+
 --- 0.0.0 ---
 [New]
 Initial separated package release of OwlCore.Remoting. Transferred from OwlCore 0.1.0.
@@ -55,14 +62,14 @@ Initial separated package release of OwlCore.Remoting. Transferred from OwlCore 
 	<ItemGroup>
 		<PackageReference Include="Cauldron.BasicInterceptors" Version="3.2.3" />
 		<PackageReference Include="Cauldron.Interception.Fody" Version="3.2.3" />
-		<PackageReference Include="Microsoft.Bcl.AsyncInterfaces" Version="6.0.0" />
-		<PackageReference Include="Microsoft.SourceLink.GitHub" Version="1.1.1" PrivateAssets="All" />
-		<PackageReference Include="OwlCore.Extensions" Version="0.3.0" />
+		<PackageReference Include="Microsoft.Bcl.AsyncInterfaces" Version="8.0.0" />
+		<PackageReference Include="Microsoft.SourceLink.GitHub" Version="8.0.0" PrivateAssets="All" />
+		<PackageReference Include="OwlCore.Extensions" Version="0.7.0" />
 		<PackageReference Include="System.Linq.Async" Version="6.0.1" />
-    <PackageReference Include="CommunityToolkit.Diagnostics" Version="8.0.0" />
-    <PackageReference Include="Newtonsoft.Json" Version="13.0.1" />
+    <PackageReference Include="CommunityToolkit.Diagnostics" Version="8.2.2" />
+    <PackageReference Include="Newtonsoft.Json" Version="13.0.3" />
     <PackageReference Include="Microsoft.CSharp" Version="4.7.0" />
-    <PackageReference Include="System.Threading.Tasks.Dataflow" Version="6.0.0" />
+    <PackageReference Include="System.Threading.Tasks.Dataflow" Version="8.0.0" />
 	</ItemGroup>
 
 	<ItemGroup>
