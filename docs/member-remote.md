@@ -23,7 +23,7 @@ public class MyClass : IDisposable
 {
     private MemberRemote _memberRemote;
 
-    public MemberRemote()
+    public MyClass()
     {
         // Pass the instance you want to remote into MemberRemote() with an ID that is identical on both machines for that instance.
         // An instance will not receive member changes until you do this.
